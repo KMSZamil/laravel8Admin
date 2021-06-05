@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\VisitorController;
+use App\Http\Controllers\UserManagerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +17,10 @@ use App\Http\Controllers\VisitorController;
 */
 
 Route::get('/', [HomeController::class, 'dashboard']);
+
 Route::get('/visitors', [VisitorController::class, 'index']);
+
+Route::get('/usermanager', [UserManagerController::class,'index']);
+Route::get('/usermanager/create', [UserManagerController::class,'create']);
+Route::post('/usermanager_submit',[UserManagerController::class,'store']);
+

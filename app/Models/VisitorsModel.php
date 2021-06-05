@@ -9,7 +9,7 @@ class VisitorsModel extends Model
 {
     public $table = 'visitors';
     public $primaryKey = 'id';
-    public  $incrementing = true;
+    public $incrementing = true;
     public $keyType = 'int';
     public $timestamps = false;
 }

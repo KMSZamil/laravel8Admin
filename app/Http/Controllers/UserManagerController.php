@@ -3,46 +3,38 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\UserManagerModel;
 
 class UserManagerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+        $rows = json_decode(UserManagerModel::all());
+        return view('usermanager.view',['rows'=>$rows]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('usermanager.add');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        //dd($request);
+        $request->validate([
+            'UserId' => 'required',
+            'Name' => 'required',
+            'Password' => 'required'
+        ]);
+
+        UserManagerModel::create($request->all());
+
+        return redirect()->route('usermanager.index')
+            ->with('success', 'User created successfully.');
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
