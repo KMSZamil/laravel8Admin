@@ -20,9 +20,11 @@ Route::get('/', [HomeController::class, 'dashboard']);
 
 Route::get('/visitors', [VisitorController::class, 'index']);
 
-Route::get('/usermanager', [UserManagerController::class,'index']);
-Route::get('/usermanager/create', [UserManagerController::class,'create']);
-Route::post('/usermanager/submit',[UserManagerController::class,'store']);
-Route::get('/usermanager/edit/{id}',[UserManagerController::class,'edit']);
-Route::post('/usermanager/update/{id}',[UserManagerController::class,'update']);
-Route::get('/usermanager/delete/{id}',[UserManagerController::class,'destroy']);
+Route::prefix('usermanager')->group(function () {
+    Route::get('/', [UserManagerController::class,'index']);
+    Route::get('/create', [UserManagerController::class,'create']);
+    Route::post('/submit',[UserManagerController::class,'store']);
+    Route::get('/edit/{id}',[UserManagerController::class,'edit']);
+    Route::post('/update/{id}',[UserManagerController::class,'update']);
+    Route::get('/delete/{id}',[UserManagerController::class,'destroy']);
+});
