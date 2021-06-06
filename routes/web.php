@@ -22,5 +22,7 @@ Route::get('/visitors', [VisitorController::class, 'index']);
 
 Route::get('/usermanager', [UserManagerController::class,'index']);
 Route::get('/usermanager/create', [UserManagerController::class,'create']);
-Route::post('/usermanager_submit',[UserManagerController::class,'store']);
-
+Route::post('/usermanager/submit',[UserManagerController::class,'store']);
+Route::get('/usermanager/edit/{id}',[UserManagerController::class,'edit']);
+Route::post('/usermanager/update/{id}',[UserManagerController::class,'update']);
+Route::get('/usermanager/delete/{id}',[UserManagerController::class,'destroy']);

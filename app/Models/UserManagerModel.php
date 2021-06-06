@@ -11,13 +11,15 @@ class UserManagerModel extends Model
     use HasFactory;
 
     protected $table = 'user_manager';
-    public $primaryKey = 'id';
-    public $timestamps = true;
+    protected $primaryKey = 'id';
+    public $timestamps = false;
 
     protected $fillable=[
         'user_id',
         'name',
         'password',
-        'create_date'
+        'designation',
+        'email',
+        'status'
     ];
 }

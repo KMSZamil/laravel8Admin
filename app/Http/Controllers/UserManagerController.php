@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\UserManagerModel;
+use Carbon\Carbon;
 
 class UserManagerController extends Controller
 {
 
     public function index()
     {
-        $rows = json_decode(UserManagerModel::all());
+        $rows = UserManagerModel::all();
         return view('usermanager.view',['rows'=>$rows]);
     }
 
@@ -22,16 +23,29 @@ class UserManagerController extends Controller
     public function store(Request $request)
     {
         //dd($request);
-        $request->validate([
-            'UserId' => 'required',
-            'Name' => 'required',
-            'Password' => 'required'
-        ]);
+        try {
+            $request->validate([
+                'UserId' => 'required',
+                'Name' => 'required',
+                'Password' => 'required'
+            ]);
 
-        UserManagerModel::create($request->all());
+            UserManagerModel::create([
+                'user_id' => $request->input('UserId'),
+                'name' => $request->input('Name'),
+                'password' => $request->input('Password'),
+                'designation' => $request->input('Designation'),
+                'email' => $request->input('Email'),
+                'status' => $request->input('Status')
+            ]);
 
-        return redirect()->route('usermanager.index')
-            ->with('success', 'User created successfully.');
+            return redirect('/usermanager')
+                ->with('success', 'User created successfully.');
+            } catch (Throwable $e) {
+                return redirect('/usermanager')
+                    ->with('error', 'User creation unsuccessful.');
+            }
+
 
     }
 
@@ -40,37 +54,54 @@ class UserManagerController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+        $row = UserManagerModel::find($id);
+        //dd($row);
+        return view('usermanager.add',['row'=>$row]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $date = Carbon::now();
+        $datetime =  $date->toDateTimeString();
+            $request->validate([
+                'UserId' => 'required',
+                'Name' => 'required',
+                'Password' => 'required'
+            ]);
+            $update = UserManagerModel::where('id', $id)->update([
+                'user_id' => $request->input('UserId'),
+                'name' => $request->input('Name'),
+                'password' => $request->input('Password'),
+                'designation' => $request->input('Designation'),
+                'email' => $request->input('Email'),
+                'status' => $request->input('Status'),
+                'edit_date' => $datetime
+            ]);
+
+            if($update)
+            {
+                return redirect('/usermanager')
+                    ->with('success', 'User updated successfully.');
+            }else{
+                return redirect('/usermanager')
+                    ->with('error', 'User update unsuccessful.');
+            }
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $delete = UserManagerModel::where('id',$id)->delete();
+
+        if($delete)
+        {
+            return redirect('/usermanager')
+                ->with('success', 'User deleted successfully.');
+        }else{
+            return redirect('/usermanager')
+                ->with('error', 'User delete unsuccessful.');
+        }
     }
 }
