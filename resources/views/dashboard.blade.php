@@ -1,5 +1,7 @@
 @extends('index')
 
+@section('page_title', 'Dashboard')
+
 @section('main_content')
 
 <div class="row layout-top-spacing">

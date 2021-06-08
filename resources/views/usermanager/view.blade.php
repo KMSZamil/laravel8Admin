@@ -1,5 +1,7 @@
 @extends('index')
 
+@section('page_title', 'User Manager View')
+
 @section('main_content')
 
     <div class="row layout-top-spacing" id="cancel-row">
