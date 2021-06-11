@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\UserManagerModel;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class UserManagerController extends Controller
 {
-
     public function index()
     {
         $rows = UserManagerModel::all();
@@ -22,7 +22,7 @@ class UserManagerController extends Controller
 
     public function store(Request $request)
     {
-        //dd($request);
+        //dd(Auth::user());
         try {
             $request->validate([
                 'UserId' => 'required',
@@ -70,6 +70,7 @@ class UserManagerController extends Controller
                 'Name' => 'required',
                 'Password' => 'required'
             ]);
+
             $update = UserManagerModel::where('id', $id)->update([
                 'user_id' => $request->input('UserId'),
                 'name' => $request->input('Name'),
