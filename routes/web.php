@@ -18,9 +18,9 @@ use App\Http\Controllers\AuthController;
 */
 Route::get('/',[AuthController::class,'login'])->name('login');
 
-Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard')->middleware('auth');
 
-Route::get('/visitors', [VisitorController::class, 'index']);
+Route::get('/visitors', [VisitorController::class, 'index'])->name('visitor')->middleware('auth');
 
 Route::prefix('usermanager')->group(function () {
     Route::get('/', [UserManagerController::class,'index']);
@@ -33,4 +33,6 @@ Route::prefix('usermanager')->group(function () {
 
 Route::get('/login',[AuthController::class,'login'])->name('login');
 Route::get('/logout',[AuthController::class,'logout'])->name('logout');
-Route::post('/login/submit',[AuthController::class,'submit'])->name('login-submit');
+Route::post('/login/submit',[AuthController::class,'submit'])->name('login-submit')->middleware('auth');
+Route::get('/resetPassword',[AuthController::class,'resetPassword'])->name('reset-password')->middleware('auth');
+Route::post('/resetPassword/submit',[AuthController::class,'resetPasswordSubmit'])->name('reset-password-submit')->middleware('auth');

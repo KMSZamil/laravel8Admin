@@ -24,7 +24,6 @@
                             <th>Id</th>
                             <th>User ID</th>
                             <th>User Name</th>
-                            <th>Password</th>
                             <th>Designation</th>
                             <th>Email</th>
                             <th>Status</th>
@@ -37,7 +36,6 @@
                                 <td>{{ $row->id }}</td>
                                 <td>{{ $row->user_id }}</td>
                                 <td>{{ $row->name }}</td>
-                                <td>{{ $row->password }}</td>
                                 <td>{{ $row->designation }}</td>
                                 <td>{{ $row->email }}</td>
                                 <td>

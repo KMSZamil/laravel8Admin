@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\UserManagerModel;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
 class UserManagerController extends Controller
@@ -33,7 +34,7 @@ class UserManagerController extends Controller
             UserManagerModel::create([
                 'user_id' => $request->input('UserId'),
                 'name' => $request->input('Name'),
-                'password' => $request->input('Password'),
+                'password' => Hash::make($request->input('Password')),
                 'designation' => $request->input('Designation'),
                 'email' => $request->input('Email'),
                 'status' => $request->input('Status')
@@ -67,19 +68,20 @@ class UserManagerController extends Controller
         $datetime =  $date->toDateTimeString();
             $request->validate([
                 'UserId' => 'required',
-                'Name' => 'required',
-                'Password' => 'required'
+                'Name' => 'required'
             ]);
 
-            $update = UserManagerModel::where('id', $id)->update([
+            $data = array(
                 'user_id' => $request->input('UserId'),
                 'name' => $request->input('Name'),
-                'password' => $request->input('Password'),
+                'password' => Hash::make($request->input('Password')),
                 'designation' => $request->input('Designation'),
                 'email' => $request->input('Email'),
                 'status' => $request->input('Status'),
                 'edit_date' => $datetime
-            ]);
+                );
+            //dd($data);
+            $update = UserManagerModel::where('id', $id)->update($data);
 
             if($update)
             {
