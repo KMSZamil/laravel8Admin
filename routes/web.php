@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\VisitorController;
 use App\Http\Controllers\UserManagerController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DraftChartsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,8 @@ Route::prefix('usermanager')->group(function () {
 
 Route::get('/login',[AuthController::class,'login'])->name('login');
 Route::get('/logout',[AuthController::class,'logout'])->name('logout');
-Route::post('/login/submit',[AuthController::class,'submit'])->name('login-submit')->middleware('auth');
+Route::post('/login/submit',[AuthController::class,'submit'])->name('login-submit');
 Route::get('/resetPassword',[AuthController::class,'resetPassword'])->name('reset-password')->middleware('auth');
 Route::post('/resetPassword/submit',[AuthController::class,'resetPasswordSubmit'])->name('reset-password-submit')->middleware('auth');
+
+Route::get('/draftCharts',[DraftChartsController::class, 'index']);

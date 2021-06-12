@@ -19,6 +19,8 @@
     <link href="{{asset('plugins/sweetalerts/sweetalert2.min.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('plugins/sweetalerts/sweetalert.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{asset('assets/css/components/custom-sweetalert.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('assets/css/scrollspyNav.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{asset('plugins/apex/apexcharts.css')}}" rel="stylesheet" type="text/css">
 
 </head>
 <body>
@@ -68,6 +70,8 @@
     <script src="{{asset('plugins/table/datatable/datatables.js')}}"></script>
     <script src="{{asset('assets/js/loader.js')}}"></script>
     <script src="{{asset('plugins/sweetalerts/promise-polyfill.js')}}"></script>
+    <script src="{{asset('assets/js/scrollspyNav.js')}}"></script>
+{{--    <script src="{{asset('plugins/apex/custom-apexcharts.js')}}"></script>--}}
     <script>
         $('#zero-config').DataTable({
             "oLanguage": {
