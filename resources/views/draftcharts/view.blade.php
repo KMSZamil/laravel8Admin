@@ -22,25 +22,33 @@
     </div>
     <?php //echo'<pre>'; print_r($json_data); exit();?>
     <?php
-
-        for($i=0; $i<count($json_data); $i++){
+        $temp_date_output = array();
+        $temp_humidity_output = array();
+        $temp_temperature_output = array();
+        $temp_moisture1_output = array();
+        $temp_date_output = array();
+        for($i = 200; $i < 300; $i ++){
+            $temp_date = array();
+            $temp_humidity = array();
+            $temp_temperature = array();
+            $temp_moisture1 = array();
+            $temp_moisture2 = array();
             $temp_date[] = $json_data[$i]['EntryDate'];
-            $temp_humidity[] = $json_data[$i]['humidity']!='humidity' ? $json_data[$i]['humidity'] : '';
-            $temp_temperature[] = $json_data[$i]['temperature']!='temperature' ? $json_data[$i]['temperature'] : '';
-            //$temp_moisture1[] = $json_data[$i]['moisture1']!='moisture' ? $json_data[$i]['moisture1'] : '';
-            //$temp_moisture2[] = $json_data[$i]['moisture2']!='solit' ? $json_data[$i]['moisture2'] : '';
+            $temp_humidity[] = $json_data[$i]['humidity']!='humidity'  ? $json_data[$i]['humidity'] : 0;
+            //$temp_temperature[] = $json_data[$i]['temperature']!='temperature' ? $json_data[$i]['temperature'] : 0;
+            //$temp_moisture1[] = $json_data[$i]['moisture1']!='moisture' ? $json_data[$i]['moisture1'] : 0;
+            //$temp_moisture2[] = $json_data[$i]['moisture2']!='solit' ? $json_data[$i]['moisture2'] : 0;
             $temp_date_output[] = implode(', ',$temp_date);
             $temp_humidity_output[] = implode(', ',$temp_humidity);
-            $temp_temperature_output[] = implode(', ',$temp_temperature);
+            //$temp_temperature_output[] = implode(', ',$temp_temperature);
             //$temp_moisture1_output[] = implode(', ',$temp_moisture1);
             //$temp_moisture2_output[] = implode(', ',$temp_moisture2);
         }
-        //echo implode(",\n", $temp_date_output);
+        //echo implode(",\n", $temp_humidity_output);
     ?>
 
     <script src="{{asset('plugins/apex/apexcharts.min.js')}}"></script>
     <script>
-        // Simple Line Area
         var sLineArea = {
             chart: {
                 height: 350,
@@ -57,21 +65,22 @@
                 curve: 'smooth'
             },
             series: [{
-                name: 'Humidity',
-                data: [<?php echo implode(" /n", $temp_humidity_output)?>]
-            },
-            //     {
+                name: 'series1',
+                data: [<?php echo implode(", ", $temp_humidity_output);?>]
+            }
+            // , {
             //     name: 'series2',
             //     data: [11, 32, 45, 32, 34, 52, 41]
-            // }],
+            //     }
+            ],
 
             xaxis: {
                 type: 'datetime',
-                categories: [<?php echo implode(" /n", $temp_date_output)?>],
+                categories: [<?php echo "'" . implode( "', '", $temp_date_output) . "'";?>],
             },
             tooltip: {
                 x: {
-                    format: 'dd/MM/yy HH:mm'
+                    format: 'dd/MM/yy'
                 },
             }
         }
