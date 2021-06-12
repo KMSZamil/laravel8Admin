@@ -154,7 +154,7 @@
                 title: {
                     display: true,
                     text: 'Humidity Value Curve'
-                }
+                },
             }
         };
 
