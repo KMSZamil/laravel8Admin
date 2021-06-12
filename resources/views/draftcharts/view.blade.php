@@ -20,6 +20,23 @@
             </div>
         </div>
     </div>
+
+    <div class="row layout-top-spacing" id="cancel-row">
+        <div id="chartArea" class="col-xl-12 layout-spacing">
+            <div class="statbox widget box box-shadow">
+                <div class="widget-header">
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                            <h4>Simple Area</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget-content widget-content-area">
+                    <canvas id="canvas"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
     <?php //echo'<pre>'; print_r($json_data); exit();?>
     <?php
         $temp_date_output = array();
@@ -27,7 +44,7 @@
         $temp_temperature_output = array();
         $temp_moisture1_output = array();
         $temp_date_output = array();
-        for($i = 200; $i < 300; $i ++){
+        for($i = 200; $i < 250; $i ++){
             $temp_date = array();
             $temp_humidity = array();
             $temp_temperature = array();
@@ -91,6 +108,60 @@
         );
 
         chart.render();
+
+    </script>
+
+    <script src="{{asset('assets/js/chartjs/Chart.min.js')}}"></script>
+    <script src="{{asset('assets/js/chartjs/Chart.js')}}"></script>
+
+    <script>
+
+        var config = {
+            type: 'line',
+            data: {
+                labels: [<?php echo "'" . implode( "', '", $temp_date_output) . "'";?>],
+                datasets: [{
+                    label: "My First dataset",
+                    data: [<?php echo implode(", ", $temp_humidity_output);?>],
+                    fill: false,
+                    borderDash: [5, 5],
+                }]
+            },
+            options: {
+                responsive: true,
+                legend: {
+                    position: 'bottom',
+                },
+                hover: {
+                    mode: 'label'
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Month'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                        }
+                    }]
+                },
+                title: {
+                    display: true,
+                    text: 'Humidity Value Curve'
+                }
+            }
+        };
+
+        window.onload = function() {
+            var ctx = document.getElementById("canvas").getContext("2d");
+            window.myLine = new Chart(ctx, config);
+        };
 
     </script>
 @endsection
