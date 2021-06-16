@@ -6,6 +6,7 @@ use App\Http\Controllers\VisitorController;
 use App\Http\Controllers\UserManagerController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DraftChartsController;
+use App\Http\Controllers\MailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,3 +40,5 @@ Route::get('/resetPassword',[AuthController::class,'resetPassword'])->name('rese
 Route::post('/resetPassword/submit',[AuthController::class,'resetPasswordSubmit'])->name('reset-password-submit')->middleware('auth');
 
 Route::get('/draftCharts',[DraftChartsController::class, 'index']);
+
+Route::get('/mailSent',[MailController::class, 'basic_email']);
