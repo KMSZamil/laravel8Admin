@@ -69,8 +69,11 @@
     <script src="{{asset('assets/js/dashboard/dash_1.js')}}"></script>
     <script src="{{asset('plugins/table/datatable/datatables.js')}}"></script>
     <script src="{{asset('assets/js/loader.js')}}"></script>
+    <script src="{{asset('plugins/sweetalerts/sweetalert2.min.js')}}"></script>
     <script src="{{asset('plugins/sweetalerts/promise-polyfill.js')}}"></script>
     <script src="{{asset('assets/js/scrollspyNav.js')}}"></script>
+
+    <script src="{{asset('assets/js/my_custom.js')}}"></script>
 {{--    <script src="{{asset('plugins/apex/custom-apexcharts.js')}}"></script>--}}
     <script>
         $('#zero-config').DataTable({
