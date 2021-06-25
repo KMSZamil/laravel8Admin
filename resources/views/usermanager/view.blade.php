@@ -12,6 +12,7 @@
                     @if ($message = Session::get('success'))
                         <div class="alert alert-success text-center">
                             <p>{{ $message }}</p>
+                            <p></p>
                         </div>
                     @elseif ($message = Session::get('error'))
                         <div class="alert alert-danger text-center">
@@ -47,7 +48,7 @@
                                 </td>
                                 <td>
                                     <a href="{{url('/usermanager/edit/'.$row->id)}}"> <button class="btn btn-info mb-2">Edit</button></a>
-                                    <a href="{{url('/usermanager/delete/'.$row->id)}}"> <button class="btn btn-danger mb-2">Delete</button></a>
+                                    <a href="{{url('/usermanager/delete/'.$row->id)}}"> <button class="btn btn-danger mb-2" onclick="ConfirmDelete()">Delete</button></a>
                                 </td>
                             </tr>
                         @endforeach
@@ -58,6 +59,5 @@
             </div>
         </div>
     </div>
-
 
 @endsection
