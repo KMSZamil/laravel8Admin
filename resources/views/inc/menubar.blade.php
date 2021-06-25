@@ -48,7 +48,7 @@
             <ul class="navbar-nav theme-brand flex-row  text-center">
                 <li class="nav-item theme-logo">
                     <a href="{{url('/dashboard')}}">
-                        <img src="{{asset('assets/img/z_white.png')}}" class="navbar-logo" alt="logo">
+                        <img src="{{asset('assets/img/z-white.png')}}" class="navbar-logo" alt="logo">
                     </a>
                 </li>
                 <li class="nav-item theme-text">
