@@ -100,11 +100,23 @@ class UserManagerController extends Controller
 
         if($delete)
         {
-            return redirect('/usermanager')
-                ->with('success', 'User deleted successfully.');
+//            return redirect('/usermanager')
+//                ->with('success', 'User deleted successfully.');
+            $data = array(
+
+                'success' =>true,
+                'message' => 'User deleted successfully.'
+            );
+            return $data;
         }else{
-            return redirect('/usermanager')
-                ->with('error', 'User delete unsuccessful.');
+//            return redirect('/usermanager')
+//                ->with('error', 'User delete unsuccessful.');
+            $data = array(
+
+                'success' =>false,
+                'message' => 'User delete unsuccessful.'
+            );
+            return $data;
         }
     }
 }

@@ -7,6 +7,7 @@
     <title>@yield('page_title')</title>
     <link rel="manifest" href="/manifest.json"/>
     <link rel="icon" type="image/x-icon" href="{{asset('assets/img/zamil_fav_white.ico')}}"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="{{asset('assets/css/loader.css')}}" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
     <link href="{{asset('bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />

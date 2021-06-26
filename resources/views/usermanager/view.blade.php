@@ -9,15 +9,23 @@
             <div class="widget-content widget-content-area br-6">
                 <a href="{{url('usermanager/create')}}"> <button class="btn btn-primary mb-2">Add</button></a>
                 <div class="table-responsive mb-4 mt-4">
+                    <link href="{{asset('assets/css/components/custom-sweetalert.css')}}" rel="stylesheet" type="text/css" />
+                    <script src="{{asset('plugins/sweetalerts/sweetalert2.min.js')}}"></script>
                     @if ($message = Session::get('success'))
-                        <div class="alert alert-success text-center">
-                            <p>{{ $message }}</p>
-                            <p></p>
-                        </div>
+{{--                        <div class="alert alert-success text-center">--}}
+{{--                            <p>{{ $message }}</p>--}}
+{{--                            <p></p>--}}
+{{--                        </div>--}}
+                        <script type="text/javascript">
+                            swal("Good job!", "{{ $message }}", "success")
+                        </script>
                     @elseif ($message = Session::get('error'))
-                        <div class="alert alert-danger text-center">
-                            <p>{{ $message }}</p>
-                        </div>
+{{--                        <div class="alert alert-danger text-center">--}}
+{{--                            <p>{{ $message }}</p>--}}
+{{--                        </div>--}}
+                        <script type="text/javascript">
+                            swal("Opps!", "{{ $message }}", "danger")
+                        </script>
                     @endif
                     <table id="zero-config" class="table table-hover" style="width:100%">
                         <thead>
@@ -48,7 +56,8 @@
                                 </td>
                                 <td>
                                     <a href="{{url('/usermanager/edit/'.$row->id)}}"> <button class="btn btn-info mb-2">Edit</button></a>
-                                    <a href="{{url('/usermanager/delete/'.$row->id)}}"> <button class="btn btn-danger mb-2" onclick="ConfirmDelete()">Delete</button></a>
+{{--                                    <a onclick="return myDeleteFunction()" href="{{url('/usermanager/delete/'.$row->id)}}"> <button class="btn btn-danger mb-2">Delete</button></a>--}}
+                                    <button class="btn btn-danger" onclick="deleteConfirmation('{{url('/usermanager/delete')}}',{{$row->id}}, '{{url('/usermanager')}}')">Delete</button>
                                 </td>
                             </tr>
                         @endforeach

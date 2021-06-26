@@ -30,7 +30,7 @@ Route::prefix('usermanager')->group(function () {
     Route::post('/submit',[UserManagerController::class,'store'])->name('user-submit');
     Route::get('/edit/{id}',[UserManagerController::class,'edit'])->name('user-edit');
     Route::post('/update/{id}',[UserManagerController::class,'update'])->name('user-update');
-    Route::get('/delete/{id}',[UserManagerController::class,'destroy'])->name('user-delete');
+    Route::post('/delete/{id}',[UserManagerController::class,'destroy'])->name('user-delete');
 });
 
 Route::get('/login',[AuthController::class,'login'])->name('login');
