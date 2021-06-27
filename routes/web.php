@@ -41,4 +41,5 @@ Route::post('/resetPassword/submit',[AuthController::class,'resetPasswordSubmit'
 
 Route::get('/draftCharts',[DraftChartsController::class, 'index']);
 
-Route::get('/mailSent',[MailController::class, 'basic_email']);
+Route::get('/mail/mailSent',[MailController::class, 'basic_email'])->name('mail-sent')->middleware('auth');
+Route::get('/mail',[MailController::class, 'index'])->name('mail-page')->middleware('auth');
