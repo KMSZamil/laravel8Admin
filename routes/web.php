@@ -24,8 +24,9 @@ Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard'
 
 Route::get('/visitors', [VisitorController::class, 'index'])->name('visitor')->middleware('auth');
 
+Route::get('/usermanager',[UserManagerController::class,'index'])->name('usermanager');
+
 Route::prefix('usermanager')->group(function () {
-    Route::get('/', [UserManagerController::class,'index']);
     Route::get('/create', [UserManagerController::class,'create'])->name('user-create');
     Route::post('/submit',[UserManagerController::class,'store'])->name('user-submit');
     Route::get('/edit/{id}',[UserManagerController::class,'edit'])->name('user-edit');
@@ -41,5 +42,7 @@ Route::post('/resetPassword/submit',[AuthController::class,'resetPasswordSubmit'
 
 Route::get('/draftCharts',[DraftChartsController::class, 'index']);
 
-Route::get('/mail/mailSent',[MailController::class, 'basic_email'])->name('mail-sent')->middleware('auth');
-Route::get('/mail',[MailController::class, 'index'])->name('mail-page')->middleware('auth');
+Route::prefix('mail')->middleware('auth')->group(function () {
+    Route::get('/',[MailController::class, 'index'])->name('mail-page');
+    Route::get('/mailSent',[MailController::class, 'basic_email'])->name('mail-sent');
+});
