@@ -7,6 +7,7 @@ use App\Http\Controllers\UserManagerController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DraftChartsController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\MenuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,14 +25,23 @@ Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard'
 
 Route::get('/visitors', [VisitorController::class, 'index'])->name('visitor')->middleware('auth');
 
-Route::get('/usermanager',[UserManagerController::class,'index'])->name('usermanager');
+Route::get('/create', [UserManagerController::class,'create'])->name('user-create');
 
-Route::prefix('usermanager')->group(function () {
-    Route::get('/create', [UserManagerController::class,'create'])->name('user-create');
+Route::prefix('usermanager')->middleware('auth')->group(function () {
+    Route::get('/',[UserManagerController::class,'index'])->name('usermanager');
     Route::post('/submit',[UserManagerController::class,'store'])->name('user-submit');
     Route::get('/edit/{id}',[UserManagerController::class,'edit'])->name('user-edit');
     Route::post('/update/{id}',[UserManagerController::class,'update'])->name('user-update');
     Route::post('/delete/{id}',[UserManagerController::class,'destroy'])->name('user-delete');
+});
+
+Route::prefix('menu')->group(function () {
+    Route::get('/', [MenuController::class,'index'])->name('menu');
+    Route::get('/create', [MenuController::class,'create'])->name('menu-create');
+    Route::post('/submit',[MenuController::class,'store'])->name('menu-submit');
+    Route::get('/edit/{id}',[MenuController::class,'edit'])->name('menu-edit');
+    Route::post('/update/{id}',[MenuController::class,'update'])->name('menu-update');
+    Route::post('/delete/{id}',[MenuController::class,'destroy'])->name('menu-delete');
 });
 
 Route::get('/login',[AuthController::class,'login'])->name('login');
