@@ -11,15 +11,18 @@ class UserManagerModel extends Model
     use HasFactory;
 
     protected $table = 'user_manager';
+
     protected $primaryKey = 'id';
+
     public $timestamps = false;
 
-    protected $fillable=[
-        'user_id',
-        'name',
-        'password',
-        'designation',
-        'email',
-        'status'
+    protected $guarded = [];
+
+    protected $hidden = [
+        'password'
     ];
+
+    public function menus(){
+        return $this->belongsToMany('App\Models\MenuModel','menu_user','user_id','menu_id');
+    }
 }

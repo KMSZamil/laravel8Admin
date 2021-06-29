@@ -1,4 +1,4 @@
-@extends('index')
+@extends('app')
 
 @section('page_title', 'Menu Configuration')
 

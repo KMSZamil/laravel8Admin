@@ -15,7 +15,7 @@ class UsermanagerTable extends Migration
     {
         Schema::create('user_manager',function (Blueprint $table){
             $table->bigIncrements('id');
-            $table->string('user_id');
+            $table->integer('user_id');
             $table->string('password');
             $table->string('name');
             $table->string('designation');

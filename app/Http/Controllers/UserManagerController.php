@@ -4,50 +4,57 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\UserManagerModel;
+use App\Models\MenuModel;
+use App\Models\MenuUserModel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Brian2694\Toastr\Facades\Toastr;
 
 class UserManagerController extends Controller
 {
     public function index()
     {
-        $rows = UserManagerModel::all();
-        return view('usermanager.view',['rows'=>$rows]);
+        $users = UserManagerModel::orderBy('id','desc')->get();
+        return view('usermanager.index',compact('users'));
+
     }
 
     public function create()
     {
-        return view('usermanager.add');
+        $menus = MenuModel::all();
+        return view('usermanager.create',compact('menus'));
     }
 
     public function store(Request $request)
     {
-        //dd(Auth::user());
-        try {
-            $request->validate([
-                'UserId' => 'required',
-                'Name' => 'required',
-                'Password' => 'required'
-            ]);
 
-            UserManagerModel::create([
-                'user_id' => $request->input('UserId'),
-                'name' => $request->input('Name'),
-                'password' => Hash::make($request->input('Password')),
-                'designation' => $request->input('Designation'),
-                'email' => $request->input('Email'),
-                'status' => $request->input('Status')
-            ]);
+        $this->validate($request,[
+            'user_id' => 'required',
+            'name' => 'required',
+            'password' => 'required'
+        ]);
 
-            return redirect('/usermanager')
-                ->with('success', 'User created successfully.');
-            } catch (Throwable $e) {
-                return redirect('/usermanager')
-                    ->with('error', 'User creation unsuccessful.');
+        $user_manager = new UserManagerModel();
+        $user_manager->user_id = $request->user_id;
+        $user_manager->name = $request->name;
+        $user_manager->password = Hash::make($request->password);
+        $user_manager->designation = $request->designation;
+        $user_manager->email = $request->email;
+        $user_manager->status = $request->status;
+
+        if ($user_manager->save()){
+            $MenuIds = $request->menu;
+            foreach ($MenuIds as $m){
+                $user_menu = new MenuUserModel();
+                $user_menu->user_id = $user_manager->id;
+                $user_menu->menu_id = $m;
+                $user_menu->save();
             }
+        }
+        Toastr::success('User created successfully.', 'Goodjob!', ["positionClass" => "toast-top-right"]);
 
-
+        return redirect()->route('usermanager')->with('success', 'User created successfully.');
     }
 
     public function show($id)
@@ -57,9 +64,9 @@ class UserManagerController extends Controller
 
     public function edit($id)
     {
-        $row = UserManagerModel::find($id);
-        //dd($row);
-        return view('usermanager.add',['row'=>$row]);
+        $menu = MenuModel::all();
+        $user = UserManagerModel::with('menus')->where('id',$id)->first();
+        return view('usermanager.edit',compact('user','menu'));
     }
 
     public function update(Request $request, $id)

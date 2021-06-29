@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Menu extends Migration
+class MenuUser extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class Menu extends Migration
      */
     public function up()
     {
-        Schema::create('menu',function(Blueprint $table){
-            $table->bigIncrements('id');
-            $table->string('menu_name')->nullable();
-            $table->string('status')->nullable();
+        Schema::create('menu_user', function (Blueprint $table){
+            $table->integerIncrements('id');
+            $table->integer('user_id');
+            $table->integer('menu_id');
         });
     }
 
@@ -27,6 +27,6 @@ class Menu extends Migration
      */
     public function down()
     {
-
+        //
     }
 }

@@ -1,6 +1,10 @@
-@extends('index')
+@extends('app')
 
 @section('page_title', 'Draft Charts view')
+
+@push('css')
+    <link href="{{asset('plugins/apex/apexcharts.css')}}" rel="stylesheet" type="text/css">
+@endpush
 
 @section('main_content')
 
@@ -164,4 +168,10 @@
         };
 
     </script>
+
 @endsection
+
+
+@push('js')
+    <script src="{{asset('plugins/apex/apexcharts.min.js')}}"></script>
+@endpush

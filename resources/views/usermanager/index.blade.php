@@ -1,10 +1,11 @@
 @extends('app')
 
-@section('page_title', 'Visitor View')
+@section('page_title', 'User Manager View')
 
 @push('css')
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/table/datatable/datatables.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/table/datatable/dt-global_style.css')}}">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
 @endpush
 
 @section('main_content')
@@ -12,21 +13,39 @@
     <div class="row layout-top-spacing" id="cancel-row">
         <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
             <div class="widget-content widget-content-area br-6">
+                <a href="{{ route('user.create') }}"> <button class="btn btn-primary mb-2">Add</button></a>
                 <div class="table-responsive mb-4 mt-4">
                     <table id="zero-config" class="table table-hover" style="width:100%">
                         <thead>
                         <tr>
                             <th>Id</th>
-                            <th>IP Address</th>
-                            <th>Visit Time</th>
+                            <th>User ID</th>
+                            <th>User Name</th>
+                            <th>Designation</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th class="no-content"></th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($VisitorsData as $v)
+                        @foreach ($users as $user)
                             <tr>
-                                <td>{{ $v->id }}</td>
-                                <td>{{ $v->ip_address }}</td>
-                                <td>{{ $v->visit_time }}</td>
+                                <td>{{ $user->id }}</td>
+                                <td>{{ $user->user_id }}</td>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->designation }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>
+                                    @if($user->status=='Y')
+                                        <span class="badge badge-success"> Active </span>
+                                    @else
+                                        <span class="badge badge-danger"> In-Active </span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <a href="{{url('/usermanager/edit/'.$user->id)}}"> <button class="btn btn-info mb-2">Edit</button></a>
+                                    <button class="btn btn-danger" onclick="deleteConfirmation('{{url('/usermanager/delete')}}',{{$user->id}}, '{{url('/usermanager')}}')">Delete</button>
+                                </td>
                             </tr>
                         @endforeach
 
@@ -40,6 +59,9 @@
 @endsection
 
 @push('js')
+    <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+    {!! Toastr::message() !!}
+
     <script>
         $('#zero-config').DataTable({
             "oLanguage": {
