@@ -52,7 +52,7 @@ class UserManagerController extends Controller
                 $user_menu->save();
             }
         }
-        Toastr::success('User created successfully.', 'Goodjob!', ["positionClass" => "toast-top-right"]);
+        Toastr::success('User created successfully.', 'Good job!', ["positionClass" => "toast-top-right"]);
 
         return redirect()->route('usermanager')->with('success', 'User created successfully.');
     }
@@ -64,9 +64,10 @@ class UserManagerController extends Controller
 
     public function edit($id)
     {
-        $menu = MenuModel::all();
-        $user = UserManagerModel::with('menus')->where('id',$id)->first();
-        return view('usermanager.edit',compact('user','menu'));
+        $menus = MenuModel::all();
+        $user = UserManagerModel::with('menu_user')->where('id',$id)->first();
+        //dd($user);
+        return view('usermanager.edit',compact('user','menus'));
     }
 
     public function update(Request $request, $id)

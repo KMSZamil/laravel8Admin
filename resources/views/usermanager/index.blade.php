@@ -5,7 +5,7 @@
 @push('css')
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/table/datatable/datatables.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/table/datatable/dt-global_style.css')}}">
-    <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
+    <link rel="stylesheet" href="{{asset('plugins/toastr/toastr.min.css')}}">
 @endpush
 
 @section('main_content')
@@ -59,7 +59,7 @@
 @endsection
 
 @push('js')
-    <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="{{asset('plugins/toastr/toastr.min.js')}}"></script>
     {!! Toastr::message() !!}
 
     <script>

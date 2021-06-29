@@ -27,7 +27,7 @@ Route::get('/visitors', [VisitorController::class, 'index'])->name('visitor')->m
 
 Route::get('usermanager/create', [UserManagerController::class,'create'])->name('user.create');
 
-Route::prefix('usermanager')->middleware('auth')->group(function () {
+Route::prefix('usermanager')->group(function () {
     Route::get('/',[UserManagerController::class,'index'])->name('usermanager');
     Route::post('/store',[UserManagerController::class,'store'])->name('user.store');
     Route::get('/edit/{id}',[UserManagerController::class,'edit'])->name('user.edit');
@@ -35,10 +35,10 @@ Route::prefix('usermanager')->middleware('auth')->group(function () {
     Route::post('/delete/{id}',[UserManagerController::class,'destroy'])->name('user.delete');
 });
 
-Route::prefix('menu')->group(function () {
+Route::prefix('menu')->middleware('auth')->group(function () {
     Route::get('/', [MenuController::class,'index'])->name('menu');
     Route::get('/create', [MenuController::class,'create'])->name('menu.create');
-    Route::post('/submit',[MenuController::class,'store'])->name('menu.submit');
+    Route::post('/store',[MenuController::class,'store'])->name('menu.store');
     Route::get('/edit/{id}',[MenuController::class,'edit'])->name('menu.edit');
     Route::post('/update/{id}',[MenuController::class,'update'])->name('menu.update');
     Route::post('/delete/{id}',[MenuController::class,'destroy'])->name('menu.delete');

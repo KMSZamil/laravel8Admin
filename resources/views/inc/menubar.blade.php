@@ -15,11 +15,15 @@
         </ul>
         <ul class="navbar-item flex-row navbar-dropdown">
             <?php
-                $session_info = \App\Models\UserManagerModel::find(\Illuminate\Support\Facades\Auth::id())->first();
+               $session_info = \App\Models\UserManagerModel::find(\Illuminate\Support\Facades\Auth::id())->first();
             ?>
             <li class="nav-item dropdown user-profile-dropdown  order-lg-0 order-1">
                 <a href="javascript:void(0);" class="nav-link dropdown-toggle user" id="userProfileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <div style="font-size: 20px">({{$session_info->user_id}})<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
+                    <div style="font-size: 20px">
+                        @isset($session_info->user_id)
+                            {{$session_info->user_id}}
+                        @endisset
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
                 </a>
                 <div class="dropdown-menu position-absolute" aria-labelledby="userProfileDropdown">
                     <div class="">
@@ -74,9 +78,7 @@
                         <li class="{{ request()->is('/dashboard') ? 'active' : '' }}">
                             <a href="{{url('/dashboard')}}"> Analytics </a>
                         </li>
-{{--                        <li>--}}
-{{--                            <a href="#"> Sales </a>--}}
-{{--                        </li>--}}
+
                         <li class="{{ request()->is('visitors') ? 'active' : '' }}">
                             <a href="{{url('/visitors')}}"> Visitors </a>
                         </li>

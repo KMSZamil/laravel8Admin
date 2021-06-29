@@ -33,27 +33,28 @@
                         <div class="form-group row mb-4">
                             <label for="user_id" class="col-xl-2 col-sm-3 col-sm-2 col-form-label">User Id</label>
                             <div class="col-xl-10 col-lg-9 col-sm-10">
-                                <input type="text" class="form-control" id="user_id" name="user_id" placeholder="">
+                                <input type="text" class="form-control" id="user_id" name="user_id" value="{{$user->user_id}}">
                             </div>
                         </div>
                         <div class="form-group row mb-4">
                             <label for="name" class="col-xl-2 col-sm-3 col-sm-2 col-form-label">Name</label>
                             <div class="col-xl-10 col-lg-9 col-sm-10">
-                                <input type="text" class="form-control" id="name" name="name" placeholder="">
+                                <input type="text" class="form-control" id="name" name="name" value="{{$user->name}}">
                             </div>
                         </div>
                         <div class="form-group row mb-4">
                             <label for="designation" class="col-xl-2 col-sm-3 col-sm-2 col-form-label">Designation</label>
                             <div class="col-xl-10 col-lg-9 col-sm-10">
-                                <input type="text" class="form-control" id="designation" name="designation" placeholder="">
+                                <input type="text" class="form-control" id="designation" name="designation" value="{{$user->designation}}">
                             </div>
                         </div>
                         <div class="form-group row mb-4">
                             <label for="email" class="col-xl-2 col-sm-3 col-sm-2 col-form-label">Email</label>
                             <div class="col-xl-10 col-lg-9 col-sm-10">
-                                <input type="email" class="form-control" id="email" name ="email" placeholder="Enter Email">
+                                <input type="email" class="form-control" id="email" name ="email" value="{{$user->email}}">
                             </div>
                         </div>
+
                         <div class="form-group row mb-4">
                             <label for="hMenu" class="col-xl-2 col-sm-3 col-sm-2 col-form-label">Menu</label>
                             <div class="col-xl-10 col-lg-9 col-sm-10">

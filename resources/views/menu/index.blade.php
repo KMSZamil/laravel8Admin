@@ -5,7 +5,7 @@
 @push('css')
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/table/datatable/datatables.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('plugins/table/datatable/dt-global_style.css')}}">
-    <link href="{{asset('plugins/apex/apexcharts.css')}}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{asset('plugins/toastr/toastr.min.css')}}">
 @endpush
 
 @section('main_content')
@@ -13,23 +13,12 @@
     <div class="row layout-top-spacing" id="cancel-row">
         <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
             <div class="widget-content widget-content-area br-6">
-                <a href="{{url('menu/create')}}"> <button class="btn btn-primary mb-2">Add</button></a>
+                <a href="{{route('menu.create')}}"> <button class="btn btn-primary mb-2">Add</button></a>
                 <div class="table-responsive mb-4 mt-4">
-                    <link href="{{asset('assets/css/components/custom-sweetalert.css')}}" rel="stylesheet" type="text/css" />
-                    <script src="{{asset('plugins/sweetalerts/sweetalert2.min.js')}}"></script>
-                    @if ($message = Session::get('success'))
-                        <script type="text/javascript">
-                            swal("Good job!", "{{ $message }}", "success")
-                        </script>
-                    @elseif ($message = Session::get('error'))
-                        <script type="text/javascript">
-                            swal("Opps!", "{{ $message }}", "danger")
-                        </script>
-                    @endif
                     <table id="zero-config" class="table table-hover" style="width:100%">
                         <thead>
                         <tr>
-                            <th>Menu ID</th>
+                            <th>ID</th>
                             <th>Menu Name</th>
                             <th>Status</th>
                             <th class="no-content"></th>
@@ -38,7 +27,7 @@
                         <tbody>
                         @foreach ($rows as $row)
                             <tr>
-                                <td>{{ $row->menu_id }}</td>
+                                <td>{{ $row->id }}</td>
                                 <td>{{ $row->menu_name }}</td>
                                 <td>
                                     @if($row->status=='Y')
@@ -64,6 +53,8 @@
 @endsection
 
 @push('js')
+    <script src="{{asset('plugins/toastr/toastr.min.js')}}"></script>
+    {!! Toastr::message() !!}
     <script>
         $('#zero-config').DataTable({
             "oLanguage": {

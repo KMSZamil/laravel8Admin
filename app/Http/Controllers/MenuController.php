@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
-
 use App\Models\MenuModel;
 
 class MenuController extends Controller
@@ -12,36 +12,32 @@ class MenuController extends Controller
     public function index()
     {
         $rows = MenuModel::all();
-        return view('menu.view',['rows'=>$rows]);
+        return view('menu.index',compact('rows'));
     }
 
     public function create()
     {
-        return view('menu.add');
+        return view('menu.create');
     }
 
     public function store(Request $request)
     {
-        try {
-            $request->validate([
-               'MenuId' => 'required',
-                'MenuName' => 'required'
-            ]);
+        $request->validate([
+            'MenuName' => 'required'
+        ]);
 
-        $data = array('menu_id' => $request->input('MenuId'),
+        $data = array(
             'menu_name' => $request->input('MenuName'),
             'status' => $request->input('Status')
         );
-        //dd($data);
+
         MenuModel::create($data);
 
-        return redirect('/menu')
+        Toastr::success('Menu created successfully.', 'Good job!', ["positionClass" => "toast-top-right"]);
+
+        return redirect(route('menu'))
             ->with('success','Menu Creation Successful.');
 
-        }catch (Throwable $e) {
-            return redirect('/menu')
-                ->with('error', 'Menu creation unsuccessful.');
-        }
     }
 
     public function show($id)
@@ -53,19 +49,17 @@ class MenuController extends Controller
     {
         $row = MenuModel::find($id);
         //dd($row);
-        return view('menu.add',['row'=>$row]);
+        return view('menu.edit',['row'=>$row]);
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            'MenuId' => 'required',
             'MenuName' => 'required',
             'Status' => 'required',
         ]);
 
         $data = array(
-            'menu_id' => $request->input('MenuId'),
             'menu_name' => $request->input('MenuName'),
             'status' => $request->input('Status'),
         );
@@ -74,9 +68,11 @@ class MenuController extends Controller
 
         if($update)
         {
+            Toastr::success('Menu updated successfully', 'Good job!', ["positionClass" => "toast-top-right"]);
             return redirect('/menu')
                 ->with('success', 'Menu updated successfully.');
         }else{
+            Toastr::error('Menu update unsuccessful', 'Good job!', ["positionClass" => "toast-top-right"]);
             return redirect('/menu')
                 ->with('error', 'Menu update unsuccessful.');
         }

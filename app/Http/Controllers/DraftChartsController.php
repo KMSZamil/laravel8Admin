@@ -12,7 +12,6 @@ class DraftChartsController extends Controller
     {
         $url = "http://116.68.205.77/rnd/iot_test/main/getData";
         $json = json_decode(file_get_contents($url), true);
-        //dd($json);
         return view('draftcharts.view',['json_data'=>$json]);
     }
 
