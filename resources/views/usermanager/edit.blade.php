@@ -33,27 +33,36 @@
                         <div class="form-group row mb-4">
                             <label for="user_id" class="col-xl-2 col-sm-3 col-sm-2 col-form-label">User Id</label>
                             <div class="col-xl-10 col-lg-9 col-sm-10">
-                                <input type="text" class="form-control" id="user_id" name="user_id" value="{{$user->user_id}}">
+                                <input type="text" class="form-control" id="user_id" name="user_id" value="{{ $user->user_id }}">
                             </div>
                         </div>
                         <div class="form-group row mb-4">
                             <label for="name" class="col-xl-2 col-sm-3 col-sm-2 col-form-label">Name</label>
                             <div class="col-xl-10 col-lg-9 col-sm-10">
-                                <input type="text" class="form-control" id="name" name="name" value="{{$user->name}}">
+                                <input type="text" class="form-control" id="name" name="name" value="{{ $user->name }}">
                             </div>
                         </div>
                         <div class="form-group row mb-4">
                             <label for="designation" class="col-xl-2 col-sm-3 col-sm-2 col-form-label">Designation</label>
                             <div class="col-xl-10 col-lg-9 col-sm-10">
-                                <input type="text" class="form-control" id="designation" name="designation" value="{{$user->designation}}">
+                                <input type="text" class="form-control" id="designation" name="designation" value="{{ $user->designation }}">
                             </div>
                         </div>
                         <div class="form-group row mb-4">
                             <label for="email" class="col-xl-2 col-sm-3 col-sm-2 col-form-label">Email</label>
                             <div class="col-xl-10 col-lg-9 col-sm-10">
-                                <input type="email" class="form-control" id="email" name ="email" value="{{$user->email}}">
+                                <input type="email" class="form-control" id="email" name ="email" value="{{ $user->email }}">
                             </div>
                         </div>
+
+                        @php
+                            $data_checked = [];
+                                 if(isset($user->menus)){
+                                   foreach($user->menus as $m){
+                                       $data_checked[] =  $m->id;
+                                   }
+                                 }
+                        @endphp
 
                         <div class="form-group row mb-4">
                             <label for="hMenu" class="col-xl-2 col-sm-3 col-sm-2 col-form-label">Menu</label>
@@ -62,7 +71,9 @@
                                     @foreach($menus as $menu)
                                         <div class="n-chk">
                                             <label class="new-control new-checkbox checkbox-primary">
-                                                <input type="checkbox" class="new-control-input" name="menu[]" value="{{$menu->id}}">
+                                                <input type="checkbox" class="new-control-input" name="menu[]" <?php if (in_array($menu->id,$data_checked)) {
+                                                    echo "checked";
+                                                } ?> value="{{ $menu->id }}">
                                                 <span class="new-control-indicator"></span>{{ $menu->menu_name }}
                                             </label>
                                         </div>

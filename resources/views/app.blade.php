@@ -31,7 +31,7 @@
             </div>
         </div>
     </div>
-
+<div class="main-container" id="container">
     @include('inc.menubar')
 
     <div id="content" class="main-content">

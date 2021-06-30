@@ -65,8 +65,7 @@ class UserManagerController extends Controller
     public function edit($id)
     {
         $menus = MenuModel::all();
-        $user = UserManagerModel::with('menu_user')->where('id',$id)->first();
-        //dd($user);
+        $user = UserManagerModel::with('menus')->where('id',$id)->first();
         return view('usermanager.edit',compact('user','menus'));
     }
 

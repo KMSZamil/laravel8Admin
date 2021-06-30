@@ -22,7 +22,7 @@ class UserManagerModel extends Model
         'password'
     ];
 
-    public function menu_user(){
+    public function menus(){
         return $this->belongsToMany('App\Models\MenuModel','menu_user','user_id','menu_id');
     }
 }
