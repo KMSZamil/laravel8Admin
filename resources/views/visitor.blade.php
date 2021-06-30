@@ -40,6 +40,8 @@
 @endsection
 
 @push('js')
+    <script src="{{asset('plugins/table/datatable/datatables.js')}}"></script>
+    <script src="plugins/table/datatable/datatables.js"></script>
     <script>
         $('#zero-config').DataTable({
             "oLanguage": {

@@ -53,6 +53,7 @@
 @endsection
 
 @push('js')
+    <script src="{{asset('plugins/table/datatable/datatables.js')}}"></script>
     <script src="{{asset('plugins/toastr/toastr.min.js')}}"></script>
     {!! Toastr::message() !!}
     <script>
