@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 <div class="widget-content widget-content-area">
-                    <form action="{{ route('user.store') }}" method="POST" autocomplete="off">
+                    <form action="{{ route('user.update',['id'=>$user->id]) }}" method="POST" autocomplete="off">
                         {{ csrf_field() }}
                         <div class="form-group row mb-4">
                             <label for="user_id" class="col-xl-2 col-sm-3 col-sm-2 col-form-label">User Id</label>
@@ -40,6 +40,12 @@
                             <label for="name" class="col-xl-2 col-sm-3 col-sm-2 col-form-label">Name</label>
                             <div class="col-xl-10 col-lg-9 col-sm-10">
                                 <input type="text" class="form-control" id="name" name="name" value="{{ $user->name }}">
+                            </div>
+                        </div>
+                        <div class="form-group row mb-4">
+                            <label for="password" class="col-xl-2 col-sm-3 col-sm-2 col-form-label">Password</label>
+                            <div class="col-xl-10 col-lg-9 col-sm-10">
+                                <input type="password" class="form-control" id="password" name="password" value="{{ $user->password }}}">
                             </div>
                         </div>
                         <div class="form-group row mb-4">
@@ -55,15 +61,6 @@
                             </div>
                         </div>
 
-                        @php
-                            $data_checked = [];
-                                 if(isset($user->menus)){
-                                   foreach($user->menus as $m){
-                                       $data_checked[] =  $m->id;
-                                   }
-                                 }
-                        @endphp
-
                         <div class="form-group row mb-4">
                             <label for="hMenu" class="col-xl-2 col-sm-3 col-sm-2 col-form-label">Menu</label>
                             <div class="col-xl-10 col-lg-9 col-sm-10">
@@ -71,7 +68,7 @@
                                     @foreach($menus as $menu)
                                         <div class="n-chk">
                                             <label class="new-control new-checkbox checkbox-primary">
-                                                <input type="checkbox" class="new-control-input" name="menu[]" <?php if (in_array($menu->id,$data_checked)) {
+                                                <input type="checkbox" class="new-control-input" name="menu[]" <?php if (in_array($menu->id,$data_checked_menu)) {
                                                     echo "checked";
                                                 } ?> value="{{ $menu->id }}">
                                                 <span class="new-control-indicator"></span>{{ $menu->menu_name }}

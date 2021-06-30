@@ -51,8 +51,10 @@ class UserManagerController extends Controller
                 $user_menu->menu_id = $m;
                 $user_menu->save();
             }
+            Toastr::success('User created successfully', 'Good job!', ["positionClass" => "toast-top-right"]);
+        }else{
+            Toastr::error('User creation failed', 'Sorry!', ["positionClass" => "toast-top-right"]);
         }
-        Toastr::success('User created successfully.', 'Good job!', ["positionClass" => "toast-top-right"]);
 
         return redirect()->route('usermanager')->with('success', 'User created successfully.');
     }
@@ -66,64 +68,67 @@ class UserManagerController extends Controller
     {
         $menus = MenuModel::all();
         $user = UserManagerModel::with('menus')->where('id',$id)->first();
-        return view('usermanager.edit',compact('user','menus'));
+
+        $data_checked_menu = [];
+        if($user->menus){
+           foreach($user->menus as $m){
+               $data_checked_menu[] = $m->id;
+           }
+        }
+        return view('usermanager.edit',compact('user','menus','data_checked_menu'));
     }
 
     public function update(Request $request, $id)
     {
         $date = Carbon::now();
         $datetime =  $date->toDateTimeString();
-            $request->validate([
-                'UserId' => 'required',
-                'Name' => 'required'
+            $this->validate($request, [
+                'user_id' => 'required',
+                'name' => 'required',
+                'password' => 'required'
             ]);
 
-            $data = array(
-                'user_id' => $request->input('UserId'),
-                'name' => $request->input('Name'),
-                'password' => Hash::make($request->input('Password')),
-                'designation' => $request->input('Designation'),
-                'email' => $request->input('Email'),
-                'status' => $request->input('Status'),
-                'edit_date' => $datetime
-                );
-            //dd($data);
-            $update = UserManagerModel::where('id', $id)->update($data);
-
-            if($update)
-            {
-                return redirect('/usermanager')
-                    ->with('success', 'User updated successfully.');
-            }else{
-                return redirect('/usermanager')
-                    ->with('error', 'User update unsuccessful.');
+            $user_manager = new UserManagerModel();
+            $user_manager->user_id = $request->user_id;
+            $user_manager->name = $request->name;
+            $user_manager->password = Hash::make($request->password);
+            $user_manager->designation = $request->designation;
+            $user_manager->email = $request->email;
+            $user_manager->status = $request->status;
+dd($user_manager->where('id',$id)->update());
+            if($user_manager->where('id',$id)->update()){
+                MenuUserModel::where('user_id',$id)->delete();
+                $menu_ids = $this->menu;
+                foreach($menu_ids as $m){
+                    $menu_user = new MenuUserModel();
+                    $menu_user->user_id = $user_manager->id;
+                    $menu_user->menu_id = $m;
+                    $menu_user->save();
+                }
+                Toastr::success('User created successfully', 'Good job!', ["positionClass" => "toast-top-right"]);
             }
 
+            Toastr::error('User creation unsuccessful', 'Sorry!', ["positionClass" => "toast-top-right"]);
+            return redirect('/usermanager')->with('success', 'User updated successfully.');
     }
 
     public function destroy($id)
     {
-        $delete = UserManagerModel::where('id',$id)->delete();
-
-        if($delete)
-        {
-//            return redirect('/usermanager')
-//                ->with('success', 'User deleted successfully.');
+        if (UserManagerModel::where('id', $id)->delete()) {
+            MenuUserModel::where('user_id',$id)->delete();
             $data = array(
-
-                'success' =>true,
+                'success' => true,
                 'message' => 'User deleted successfully.'
             );
-            return $data;
-        }else{
-//            return redirect('/usermanager')
-//                ->with('error', 'User delete unsuccessful.');
+        } else {
             $data = array(
 
-                'success' =>false,
+                'success' => false,
                 'message' => 'User delete unsuccessful.'
             );
-            return $data;
         }
+        return $data;
     }
+
+
 }
