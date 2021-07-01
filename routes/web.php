@@ -8,6 +8,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DraftChartsController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\FileUploadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,15 @@ Route::prefix('menu')->middleware('auth')->group(function () {
     Route::get('/edit/{id}',[MenuController::class,'edit'])->name('menu.edit');
     Route::post('/update/{id}',[MenuController::class,'update'])->name('menu.update');
     Route::post('/delete/{id}',[MenuController::class,'destroy'])->name('menu.delete');
+});
+
+Route::prefix('file')->group(function () {
+    Route::get('/', [FileUploadController::class,'index'])->name('file');
+    Route::get('/create', [FileUploadController::class,'create'])->name('file.create');
+    Route::post('/store',[FileUploadController::class,'store'])->name('file.store');
+    Route::get('/edit/{id}',[FileUploadController::class,'edit'])->name('file.edit');
+    Route::post('/update/{id}',[FileUploadController::class,'update'])->name('file.update');
+    Route::post('/delete/{id}',[FileUploadController::class,'destroy'])->name('file.delete');
 });
 
 Route::get('/login',[AuthController::class,'login'])->name('login');

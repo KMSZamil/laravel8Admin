@@ -82,33 +82,40 @@ class UserManagerController extends Controller
     {
         $date = Carbon::now();
         $datetime =  $date->toDateTimeString();
-            $this->validate($request, [
+            $request->validate([
                 'user_id' => 'required',
                 'name' => 'required',
                 'password' => 'required'
             ]);
 
-            $user_manager = new UserManagerModel();
-            $user_manager->user_id = $request->user_id;
-            $user_manager->name = $request->name;
-            $user_manager->password = Hash::make($request->password);
-            $user_manager->designation = $request->designation;
-            $user_manager->email = $request->email;
-            $user_manager->status = $request->status;
-dd($user_manager->where('id',$id)->update());
-            if($user_manager->where('id',$id)->update()){
+//            $user_manager = new UserManagerModel();
+//            $user_manager->user_id = $request->user_id;
+//            $user_manager->name = $request->name;
+//            $user_manager->password = Hash::make($request->password);
+//            $user_manager->designation = $request->designation;
+//            $user_manager->email = $request->email;
+//            $user_manager->status = $request->status;
+            $data = array(
+                'user_id' => $request->user_id,
+                'name' => $request->name,
+                'password' => Hash::make($request->password),
+                'designation' => $request->designation,
+                'email' => $request->email,
+                'status' => $request->status,
+            );
+            if(UserManagerModel::where('id',$id)->update($data)){
                 MenuUserModel::where('user_id',$id)->delete();
-                $menu_ids = $this->menu;
+                $menu_ids = $request->menu;
                 foreach($menu_ids as $m){
                     $menu_user = new MenuUserModel();
-                    $menu_user->user_id = $user_manager->id;
+                    $menu_user->user_id = $id;
                     $menu_user->menu_id = $m;
                     $menu_user->save();
                 }
                 Toastr::success('User created successfully', 'Good job!', ["positionClass" => "toast-top-right"]);
+            }else {
+                Toastr::error('User creation unsuccessful', 'Sorry!', ["positionClass" => "toast-top-right"]);
             }
-
-            Toastr::error('User creation unsuccessful', 'Sorry!', ["positionClass" => "toast-top-right"]);
             return redirect('/usermanager')->with('success', 'User updated successfully.');
     }
 

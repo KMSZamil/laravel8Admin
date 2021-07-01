@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 <div class="widget-content widget-content-area">
-                    <form action="{{ route('user.update',['id'=>$user->id]) }}" method="POST" autocomplete="off">
+                    <form action="{{ route('user.update', $user->id) }}" method="POST" autocomplete="off">
                         {{ csrf_field() }}
                         <div class="form-group row mb-4">
                             <label for="user_id" class="col-xl-2 col-sm-3 col-sm-2 col-form-label">User Id</label>
