@@ -7,7 +7,7 @@ function ConfirmDelete() {
     }
 }
 
-function deleteConfirmation(url,id,redirecturl) {
+function deleteConfirmation(url,id,redirect_url) {
     swal({
         title: "Want to delete?",
         type: "warning",
@@ -18,22 +18,21 @@ function deleteConfirmation(url,id,redirecturl) {
     }).then(function (e) {
         if (e.value === true) {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            //console.log(CSRF_TOKEN); return false;
             $.ajax({
                 type: 'POST',
                 url: url + "/" + id,
                 data: {_token: CSRF_TOKEN},
                 dataType: 'JSON',
                 success: function (results) {
-
+                    //console.log(data); return false;
                     if (results.success === true) {
                         swal("Successfully deleted", results.message, "success").then(function() {
-                            window.location = redirecturl;
+                            window.location = redirect_url;
                         });
                     } else {
                         swal("Error!", results.message, "error");
                     }
-                }
+                },error: function(e) { console.log(e); }
             });
         } else {
             e.dismiss;

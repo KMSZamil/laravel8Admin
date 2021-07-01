@@ -88,22 +88,15 @@ class UserManagerController extends Controller
                 'password' => 'required'
             ]);
 
-//            $user_manager = new UserManagerModel();
-//            $user_manager->user_id = $request->user_id;
-//            $user_manager->name = $request->name;
-//            $user_manager->password = Hash::make($request->password);
-//            $user_manager->designation = $request->designation;
-//            $user_manager->email = $request->email;
-//            $user_manager->status = $request->status;
-            $data = array(
-                'user_id' => $request->user_id,
-                'name' => $request->name,
-                'password' => Hash::make($request->password),
-                'designation' => $request->designation,
-                'email' => $request->email,
-                'status' => $request->status,
-            );
-            if(UserManagerModel::where('id',$id)->update($data)){
+            $user_manager = UserManagerModel::find('user_id',$id);
+            $user_manager->user_id = $request->user_id;
+            $user_manager->name = $request->name;
+            $user_manager->password = Hash::make($request->password);
+            $user_manager->designation = $request->designation;
+            $user_manager->email = $request->email;
+            $user_manager->status = $request->status;
+
+            if(UserManagerModel::save()){
                 MenuUserModel::where('user_id',$id)->delete();
                 $menu_ids = $request->menu;
                 foreach($menu_ids as $m){

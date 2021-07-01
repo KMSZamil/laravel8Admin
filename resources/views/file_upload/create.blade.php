@@ -1,6 +1,6 @@
 @extends('app')
 
-@section('page_title', 'Menu Configuration')
+@section('page_title', 'File Add')
 
 @push('css')
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/forms/theme-checkbox-radio.css')}}">
@@ -42,7 +42,7 @@
                         <div class="form-group row mb-4">
                             <label for="file_to_upload" class="col-xl-2 col-sm-3 col-sm-2 col-form-label">Upload</label>
                             <div class="col-xl-10 col-lg-9 col-sm-10">
-                                <input type="file" class="form-control dropify" id="file_to_upload" name="file_to_upload">
+                                <input type="file" class="form-control dropify" id="file_to_upload" name="file_to_upload" required>
                                 <small class="form-text text-muted"> * This field is mandatory</small>
                             </div>
                         </div>

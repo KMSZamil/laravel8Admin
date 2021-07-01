@@ -4,42 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Models\FileUpload;
 use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class FileUploadController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
-     */
+
     public function index()
     {
         $file_upload = FileUpload::orderby('id','desc')->get();
         return view('file_upload.index',compact('file_upload'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
-     */
+
     public function create()
     {
         return view('file_upload.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
 
         $request->validate([
-            'file_to_upload' => 'required|mimes:csv,txt,xlx,xls,pdf,jpg,jpeg,png|max:2048'
+            'title' => 'required',
+            'file_to_upload' => 'required|mimes:csv,txt,xlx,xls,pdf,jpg,jpeg,png|max:2048',
+            'status' => 'required'
         ]);
 
         $file_data = new FileUpload();
@@ -61,62 +52,69 @@ class FileUploadController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\FileUpload  $fileUpload
-     * @return \Illuminate\Http\Response
-     */
     public function show(FileUpload $fileUpload)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\FileUpload  $fileUpload
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(FileUpload $fileUpload)
+    public function edit($id)
     {
-        //
+        $row = FileUpload::where('id',$id)->first();
+        $data = FileUpload::where('id',$id)->first();
+        return view('file_upload.edit',compact('row'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\FileUpload  $fileUpload
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, FileUpload $fileUpload)
+    public function update(Request $request, $id)
     {
-        //
-    }
+        $request->validate([
+            'title' => 'required'
+        ]);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\FileUpload  $fileUpload
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(FileUpload $fileUpload)
-    {
-        $file_path = FileUpload::where('id',$fileUpload);
-        dd($file_path);
-        if(FileUpload::where('id',$fileUpload)->delete()){
-            if(FileUpload::exists($file_path)){
-                FileUpload::delete($file_path);
+        $file_data = FileUpload::find($id);
+        if(File::exists(public_path('storage/'.$file_data->file_path))){
+            File::delete(public_path('storage/'.$file_data->file_path));
+        }
+        if($request->file()){
+            $file_name = time().'-'.$request->file_to_upload->getClientOriginalName();
+            $file_path = $request->file('file_to_upload')->storeAs('uploads', $file_name, 'public');
+
+            $file_data->title = $request->title;
+            $file_data->file_name = $file_name;
+            $file_data->file_path = $file_path;
+            $file_data->status = $request->status;
+            if($file_data->save()){
+                Toastr::success('Update Successful', 'Good job!', ["positionClass" => "toast-top-right"]);
+            }else{
+                Toastr::error('Update Unsuccessful', 'Good job!', ["positionClass" => "toast-top-right"]);
             }
+
+        }else{
+            $file_data->title = $request->title;
+            $file_data->status = $request->status;
+            if($file_data->save()){
+                Toastr::success('Update Successful', 'Good job!', ["positionClass" => "toast-top-right"]);
+            }else{
+                Toastr::error('Update Unsuccessful', 'Good job!', ["positionClass" => "toast-top-right"]);
+            }
+        }
+        return redirect(route('file'));
+    }
+
+    public function destroy($id)
+    {
+        $data = FileUpload::where('id',$id)->first();
+        if(File::exists(public_path('storage/'.$data->file_path))){
+            File::delete(public_path('storage/'.$data->file_path));
+        }
+        if (FileUpload::find($id)->delete()) {
             $data = [
                 'success' => true,
-                'message' => 'File deleted successfully.'
+                'message' => 'User deleted successfully.'
             ];
-        }else{
+        } else {
             $data = [
                 'success' => false,
-                'message' => 'Fielzz delete unsuccessful.'
+                'message' => 'User delete unsuccessful.'
             ];
         }
         return $data;

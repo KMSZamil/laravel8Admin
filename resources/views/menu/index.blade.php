@@ -38,7 +38,7 @@
                                 </td>
                                 <td>
                                     <a href="{{url('/menu/edit/'.$row->id)}}"> <button class="btn btn-info mb-2">Edit</button></a>
-                                    <button class="btn btn-danger" onclick="deleteConfirmation('{{url('/menu/delete')}}',{{$row->id}}, '{{url('/menu')}}')">Delete</button>
+                                    <button class="btn btn-danger" onclick="deleteConfirmation('{{url('/menu/delete')}}',{{$row->id}},'{{url('/menu')}}')">Delete</button>
                                 </td>
                             </tr>
                         @endforeach

@@ -44,7 +44,6 @@
                                 </td>
                                 <td>
                                     <a href="{{route('file.edit',$row->id)}}"> <button class="btn btn-info mb-2">Edit</button></a>
-                                    <a href="{{route('file.delete',$row->id)}}"> <button class="btn btn-info mb-2">dddd</button></a>
                                     <button class="btn btn-danger" onclick="deleteConfirmation('{{url('/file/delete')}}',{{$row->id}},'{{url('/file')}}')">Delete</button>
                                 </td>
                             </tr>
