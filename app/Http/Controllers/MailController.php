@@ -10,7 +10,7 @@ class MailController extends Controller
 {
     public function index(){
 
-        return view('mail.view');
+        return view('mail.index');
     }
 
     public function basic_email(){
