@@ -60,7 +60,6 @@ class FileUploadController extends Controller
     public function edit($id)
     {
         $row = FileUpload::where('id',$id)->first();
-        $data = FileUpload::where('id',$id)->first();
         return view('file_upload.edit',compact('row'));
     }
 

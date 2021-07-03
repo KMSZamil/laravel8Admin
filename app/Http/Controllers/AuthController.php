@@ -28,11 +28,18 @@ class AuthController extends Controller
 
         $userid = $request->input('UserId');
         $password = $request->input('Password');
-
         $credentials = array('user_id' => $userid, 'password' => $password, 'status' => 'Y');
-        //dd(Auth::attempt($credentials));
         if(Auth::attempt($credentials)){
+//            $user = UserManagerModel::with('menus')->where('user_id',$userid)->first();
+//            $data_checked_menu = [];
+//            if($user->menus){
+//                foreach($user->menus as $m){
+//                    $data_checked_menu[] = $m->id;
+//                }
+//            }
+//            $menu_data = implode(', ', $data_checked_menu);
             $request->session()->regenerate();
+            //$request->session()->put('menu_permission',$menu_data);
             return redirect('/dashboard');
         } else{
             return back()->withErrors([

@@ -88,7 +88,7 @@ class UserManagerController extends Controller
                 'password' => 'required'
             ]);
 
-            $user_manager = UserManagerModel::find('user_id',$id);
+            $user_manager = UserManagerModel::find($id);
             $user_manager->user_id = $request->user_id;
             $user_manager->name = $request->name;
             $user_manager->password = Hash::make($request->password);
@@ -96,7 +96,7 @@ class UserManagerController extends Controller
             $user_manager->email = $request->email;
             $user_manager->status = $request->status;
 
-            if(UserManagerModel::save()){
+            if($user_manager->save()){
                 MenuUserModel::where('user_id',$id)->delete();
                 $menu_ids = $request->menu;
                 foreach($menu_ids as $m){
