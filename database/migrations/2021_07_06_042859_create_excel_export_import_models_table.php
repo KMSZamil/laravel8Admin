@@ -17,7 +17,7 @@ class CreateExcelExportImportModelsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('age');
-            $table->date('dob')->format('Y-m-d');
+            $table->timestamps('dob');
             $table->timestamps();
         });
     }
