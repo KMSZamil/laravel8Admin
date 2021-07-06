@@ -9,6 +9,7 @@ use App\Http\Controllers\DraftChartsController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\FileUploadController;
+use App\Http\Controllers\ExcelImportExport;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,13 +46,20 @@ Route::prefix('menu')->middleware('auth')->group(function () {
     Route::post('/delete/{id}',[MenuController::class,'destroy'])->name('menu.delete');
 });
 
-Route::prefix('file')->group(function () {
+Route::prefix('file')->middleware('auth')->group(function () {
     Route::get('/', [FileUploadController::class,'index'])->name('file');
     Route::get('/create', [FileUploadController::class,'create'])->name('file.create');
     Route::post('/store',[FileUploadController::class,'store'])->name('file.store');
     Route::get('/edit/{id}',[FileUploadController::class,'edit'])->name('file.edit');
     Route::post('/update/{id}',[FileUploadController::class,'update'])->name('file.update');
     Route::post('/delete/{id}',[FileUploadController::class,'destroy'])->name('file.delete');
+});
+
+Route::prefix('excel')->middleware('auth')->group(function () {
+    Route::get('/', [ExcelImportExport::class,'index'])->name('excel');
+    Route::get('/import', [ExcelImportExport::class,'excel_import'])->name('excel.import');
+    Route::get('/export', [ExcelImportExport::class,'excel_export'])->name('excel.export');
+    Route::post('/store', [ExcelImportExport::class,'excel_store'])->name('excel.store');
 });
 
 Route::get('/login',[AuthController::class,'login'])->name('login');
