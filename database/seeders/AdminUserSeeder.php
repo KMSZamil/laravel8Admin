@@ -21,8 +21,8 @@ class AdminUserSeeder extends Seeder
             'user_id' => '22169',
             'password' => Hash::make('22169'),
             'name' => 'Admin',
-            'designation' => 'ITA',
-            'email' => 'zamil@aci-bd.com',
+            'designation' => 'Senior Software Engineer',
+            'email' => 'zamil.cse.ruet@gmail.com',
             'status' => 'Y'
         ]);
 

@@ -14,7 +14,7 @@ class CreateExcelExportImportModelsTable extends Migration
     public function up()
     {
         Schema::create('excel_export_import_models', function (Blueprint $table) {
-            $table->id();
+            $table->id()->autoIncrement();
             $table->string('name');
             $table->string('age');
             $table->timestamps('dob');
